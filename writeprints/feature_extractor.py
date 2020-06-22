@@ -217,7 +217,7 @@ class FeatureExtractor(object):
         character_counts, _ = self.get_characters_count(text)
         digits_counts = np.divide(digits_counts, character_counts)
 
-        return digits_counts, feature_labels
+        return digits_counts.tolist(), feature_labels
 
     def get_number_words_frequencies(self, text, digit_length):
         '''
@@ -300,7 +300,7 @@ class FeatureExtractor(object):
                 frequency_vector[c] = float('NaN')
 
         frequency_vector = np.array(frequency_vector)
-        return frequency_vector, feature_labels
+        return frequency_vector.tolist(), feature_labels
 
     def get_function_words_frequencies(self, text):
         feature_labels = []
@@ -325,7 +325,7 @@ class FeatureExtractor(object):
         function_words_frequencies = function_words_frequencies[:50]
         feature_labels = feature_labels[:50]
 
-        return function_words_frequencies, feature_labels
+        return list(function_words_frequencies), list(feature_labels)
 
     def get_punctuation_characters_frequencies(self, text):
         '''
@@ -439,7 +439,7 @@ class FeatureExtractor(object):
 
         for feature in features_dict:
             features, feature_labels = features_dict[feature](text)
-            if self.flatten and isinstance(features, list):
+            if self.flatten and not(isinstance(features, int) or isinstance(features, float)):
                 for f, l in zip(features, feature_labels):
                     output_dict[l] = f
             else:
