@@ -43,8 +43,10 @@ class FeatureExtractor(object):
             text, filters=self.CHARACTER_FILTER, lower=True, split=" ")
         text = text.lower().replace(" ", "")
         char_count = len(str(text))
-
-        average_char_count = char_count / len(words)
+        try:
+            average_char_count = char_count / len(words)
+        except ZeroDivisionError:
+            average_char_count = float('NaN')
         return average_char_count, feature_labels
 
     def get_letters_frequency(self, text):
@@ -70,7 +72,10 @@ class FeatureExtractor(object):
         for c in range(0, len(characters)):
             char = characters[c]
             feature_labels.append(f"letters_frequency:{char}")
-            frequency_vector[c] = chars_frequency_dict[char] / total_count
+            try:
+                frequency_vector[c] = chars_frequency_dict[char] / total_count
+            except ZeroDivisionError:
+                frequency_vector[c] = float('NaN')
 
         return frequency_vector, feature_labels
 
@@ -101,8 +106,12 @@ class FeatureExtractor(object):
         bigrams_frequencies = []
         for t in bigrams:
             feature_labels.append(f'common_bigram_frequencies:{t}')
-            bigrams_frequencies.append(
-                float(bigrams_counts_dict[t] / total_count))
+            try:
+                bigrams_frequencies.append(
+                    float(bigrams_counts_dict[t] / total_count))
+            except ZeroDivisionError:
+                bigrams_frequencies.append(
+                    float('NaN'))
 
         return bigrams_frequencies, feature_labels
 
@@ -133,8 +142,12 @@ class FeatureExtractor(object):
         trigrams_frequencies = []
         for t in trigrams:
             feature_labels.append(f'common_trigram_frequencies:{t}')
-            trigrams_frequencies.append(
-                float(trigrams_counts_dict[t] / total_count))
+            try:
+                trigrams_frequencies.append(
+                    float(trigrams_counts_dict[t] / total_count))
+            except ZeroDivisionError:
+                trigrams_frequencies.append(
+                    float('NaN'))
 
         return trigrams_frequencies, feature_labels
 
@@ -148,7 +161,10 @@ class FeatureExtractor(object):
         chars_count = len(str(text))
         digits_count = list(
             [1 for i in str(text) if i.isnumeric() == True]).count(1)
-        return digits_count / chars_count, feature_labels
+        try:
+            return digits_count / chars_count, feature_labels
+        except ZeroDivisionError:
+            return float('NaN'), feature_labels
 
     def get_characters_percentage(self, text):
         '''
@@ -161,7 +177,10 @@ class FeatureExtractor(object):
         characters = "abcdefghijklmnopqrstuvwxyz"
         all_chars_count = len(str(text))
         chars_count = list([1 for i in str(text) if i in characters]).count(1)
-        return chars_count / all_chars_count, feature_labels
+        try:
+            return chars_count / all_chars_count, feature_labels
+        except ZeroDivisionError:
+            return float('NaN'), feature_labels
 
     def get_uppercase_characters_percentage(self, text):
         '''
@@ -173,7 +192,10 @@ class FeatureExtractor(object):
         characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         allchars_count = len(str(text))
         chars_count = list([1 for i in str(text) if i in characters]).count(1)
-        return chars_count / allchars_count, feature_labels
+        try:
+            return chars_count / allchars_count, feature_labels
+        except ZeroDivisionError:
+            return float('NaN'), feature_labels
 
     def get_number_frequencies(self, text):
         '''
@@ -214,7 +236,10 @@ class FeatureExtractor(object):
             if w.isnumeric() == True and len(w) == digit_length:
                 count = count + 1
 
-        return count / word_count, feature_labels
+        try:
+            return count / word_count, feature_labels
+        except ZeroDivisionError:
+            return float('NaN'), feature_labels
 
     def get_word_length_frequencies(self, text):
         '''
@@ -238,7 +263,11 @@ class FeatureExtractor(object):
         total_count = sum(list(word_length_frequencies.values()))
         for w in word_length_frequencies:
             feature_labels.append(f"word_length_frequencies:{w}")
-            frequency_vector[w - 1] = word_length_frequencies[w] / total_count
+            try:
+                frequency_vector[w -
+                                 1] = word_length_frequencies[w] / total_count
+            except ZeroDivisionError:
+                frequency_vector[w - 1] = float('NaN')
 
         return frequency_vector, feature_labels
 
@@ -265,12 +294,15 @@ class FeatureExtractor(object):
             special_character = special_characters[c]
             feature_labels.append(
                 f"special_characters_frequencies:{special_character}")
-            frequency_vector[c] = special_characters_dict[special_character] / total_count
+            try:
+                frequency_vector[c] = special_characters_dict[special_character] / total_count
+            except ZeroDivisionError:
+                frequency_vector[c] = float('NaN')
 
         frequency_vector = np.array(frequency_vector)
         return frequency_vector, feature_labels
 
-    def get_function_words_percentage(self, text):
+    def get_function_words_frequencies(self, text):
         feature_labels = []
         function_words = open(resource_filename(
             'writeprints', 'writeprintresources/functionWord.txt')).readlines()
@@ -281,12 +313,17 @@ class FeatureExtractor(object):
         function_words_frequencies = []
         for i in range(len(function_words)):
             function_word = function_words[i]
-            feature_labels.append(f"function_words_percentage:{function_word}")
+            feature_labels.append(
+                f"function_words_frequencies:{function_word}")
             freq = 0
             for word in words:
                 if word == function_word:
                     freq += 1
             function_words_frequencies.append(freq)
+        function_words_frequencies, feature_labels = zip(
+            *sorted(zip(function_words_frequencies, feature_labels), reverse=True))
+        function_words_frequencies = function_words_frequencies[:50]
+        feature_labels = feature_labels[:50]
 
         return function_words_frequencies, feature_labels
 
@@ -304,8 +341,6 @@ class FeatureExtractor(object):
         special_characters_dict = {}
         for c in range(0, len(special_characters)):
             special_character = special_characters[c]
-            feature_labels.append(
-                f"punctuation_characters_frequencies:{special_character}")
             special_characters_dict[special_character] = 0
             for i in str(text):
                 if special_character == i:
@@ -316,7 +351,12 @@ class FeatureExtractor(object):
         total_count = sum(list(special_characters_dict.values())) + 1
         for c in range(0, len(special_characters)):
             special_character = special_characters[c]
-            frequency_vector[c] = special_characters_dict[special_character] / total_count
+            feature_labels.append(
+                f"punctuation_characters_frequencies:{special_character}")
+            try:
+                frequency_vector[c] = special_characters_dict[special_character] / total_count
+            except ZeroDivisionError:
+                frequency_vector[c] = float('NaN')
 
         return frequency_vector, feature_labels
 
@@ -330,7 +370,10 @@ class FeatureExtractor(object):
             text, filters=self.CHARACTER_FILTER, lower=True, split=" ")
         misspelled_words_intersection = set(
             words).intersection(set(misspelled_words))
-        return len(misspelled_words_intersection) / len(list(words)), feature_labels
+        try:
+            return len(misspelled_words_intersection) / len(list(words)), feature_labels
+        except ZeroDivisionError:
+            return float('NaN'), feature_labels
 
     def legomena(self, text):
         feature_labels = []
@@ -354,7 +397,10 @@ class FeatureExtractor(object):
                   'NUM', 'PART', 'PRON', 'PROPN', 'PUNCT', 'SCONJ', 'SYM', 'VERB', 'SPACE', 'X']
         tags = [tag for tag in pos_tags]
         feature_labels = [f'pos_tag_frequencies:{x}' for x in tagset]
-        return list(tuple(tags.count(tag) / len(tags) for tag in tagset)), feature_labels
+        try:
+            return list(tuple(tags.count(tag) / len(tags) for tag in tagset)), feature_labels
+        except ZeroDivisionError:
+            return [], []
 
     def get_total_words(self, text):
         feature_labels = []
@@ -387,7 +433,7 @@ class FeatureExtractor(object):
     def process(self, text):
 
         features_dict = {"characters_count": self.get_characters_count, "average_characters_per_word": self.get_average_characters_per_word, "letters_frequency": self.get_letters_frequency, "common_bigram_frequencies": self.get_common_bigram_frequencies, "common_trigram_frequencies": self.get_common_trigram_frequencies, "digits_percentage": self.get_digits_percentage, "characters_percentage": self.get_characters_percentage, "uppercase_characters_percentage": self.get_uppercase_characters_percentage, "number_frequencies": self.get_number_frequencies,
-                         "word_length_frequencies": self.get_word_length_frequencies, "special_characters_frequencies": self.get_special_characters_frequencies, "function_words_percentage": self.get_function_words_percentage, "punctuation_characters_frequencies": self.get_punctuation_characters_frequencies, "misspellings_percentage": self.get_misspellings_percentage, "leogomena": self.legomena, "pos_tag_frequencies": self.get_pos_tag_frequencies, "total_words": self.get_total_words, "average_word_length": self.get_average_word_length, "short_word_count": self.get_short_words_count}
+                         "word_length_frequencies": self.get_word_length_frequencies, "special_characters_frequencies": self.get_special_characters_frequencies, "function_words_frequencies": self.get_function_words_frequencies, "punctuation_characters_frequencies": self.get_punctuation_characters_frequencies, "misspellings_percentage": self.get_misspellings_percentage, "leogomena": self.legomena, "pos_tag_frequencies": self.get_pos_tag_frequencies, "total_words": self.get_total_words, "average_word_length": self.get_average_word_length, "short_word_count": self.get_short_words_count}
 
         output_dict = {}
 
@@ -397,6 +443,6 @@ class FeatureExtractor(object):
                 for f, l in zip(features, feature_labels):
                     output_dict[l] = f
             else:
-                output_dict[feature] = features 
+                output_dict[feature] = features
 
         return output_dict
