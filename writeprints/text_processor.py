@@ -8,10 +8,10 @@ class Processor(object):
         self.flatten = flatten
         self.extractor = FeatureExtractor(self.flatten)
 
-    def process(self, text):
+    def extract(self, text):
         return self.extractor.process(text)
 
-    def process_df(self, df):
+    def extract_df(self, df):
         assert('text' in df)
 
         df_out = pd.DataFrame()

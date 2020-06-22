@@ -16,6 +16,23 @@ To manually install from the github repository, clone the repository, go into th
 ```
 pip install ./
 ```
+
+## Usage
+To extract features from a single text document contained in a python string:
+```python
+from writeprints.text_processor import Processor
+processor = Processor (flatten = False) # Flatten will split vectorized featurs into individual featurs
+features = processor.extract(string)
+```
+
+To extract features from a pandas data frame in which a column named "text" contains the required text documents:
+
+```python
+from writeprints.text_processor import Processor
+processor = Processor (flatten = False) # Flatten will split vectorized featurs into individual featurs
+features = processor.extract_df(df)
+```
+
 License
 ----
 
