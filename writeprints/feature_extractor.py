@@ -7,8 +7,6 @@ import os
 from keras.preprocessing import text as tx
 from pkg_resources import resource_filename
 
-from . import resources
-
 
 class FeatureExtractor(object):
     def __init__(self, flatten):
