@@ -16,7 +16,7 @@ class Processor(object):
 
         df_out = pd.DataFrame()
 
-        for i, row in tqdm(df.iterrows()):
+        for i, row in tqdm(df.iterrows(), total=len(df)):
             output = self.extractor.process(row['text'])
             output['text'] = row['text']
             df_out = df_out.append(output, ignore_index=True)

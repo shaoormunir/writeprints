@@ -395,8 +395,8 @@ class FeatureExtractor(object):
             features, feature_labels = features_dict[feature](text)
             if self.flatten and isinstance(features, list):
                 for f, l in zip(features, feature_labels):
-                    output_dict[f] = l
+                    output_dict[l] = f
             else:
-                output_dict[feature] = features
+                output_dict[feature] = features 
 
         return output_dict
