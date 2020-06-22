@@ -4,3 +4,14 @@ setup.py
 writeprints/__init__.py
 writeprints/feature_extractor.py
 writeprints/text_processor.py
+writeprints/resources/functionWord.txt
+writeprints/resources/german_function_words.txt
+writeprints/resources/koppel_function_words.txt
+writeprints/resources/misspellings_wiki_writeprints.txt
+writeprints/resources/russian_function_words.txt
+writeprints/resources/special_keys.txt
+writeprints/resources/wikipedia_misspellings.txt
+writeprints/resources/wikipedia_misspellings_sequences.txt
+writeprints/resources/writeprints_misspellings.txt
+writeprints/resources/writeprints_punctuation.txt
+writeprints/resources/writeprints_special_chars.txt
