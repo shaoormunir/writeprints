@@ -2,9 +2,8 @@ from distutils.core import setup
 setup(
     name='writeprints',
     packages=['writeprints'],
-    version='0.1.2',
+    version='0.1.3',
     license='MIT',
-    include_package_data=True,
     description='This package extracts writeprints features from a text document',
     author='Shaoor Munir',
     author_email='shaoormunir@outlook.com',
@@ -36,6 +35,6 @@ setup(
     ],
     package_data={
         # If any package contains *.txt or *.rst files, include them:
-        "": ["*.txt"],
+        '': ['resources/*.txt'],
     },
 )
