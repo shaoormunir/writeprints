@@ -4,7 +4,7 @@ setup(
     packages=['writeprints'],
     version='0.1.3',
     license='MIT',
-    description='This package extracts writeprints features from a text document',
+    description='This package extracts writeprints features from a text document or a pandas dataframe',
     author='Shaoor Munir',
     author_email='shaoormunir@outlook.com',
     url='https://github.com/shaoormunir/writeprints',
