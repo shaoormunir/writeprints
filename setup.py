@@ -7,8 +7,8 @@ setup(
   description = 'This package extracts writeprints features from a text document',
   author = 'Shaoor Munir',
   author_email = 'shaoormunir@outlook.com',
-  url = 'https://github.com/user/reponame',
-  download_url = 'https://github.com/user/reponame/archive/v_01.tar.gz',
+  url = 'https://github.com/shaoormunir/writeprints',
+  download_url = 'https://github.com/shaoormunir/writeprints/archive/v0.1.tar.gz',
   keywords = ['NLP', 'Machine Leanrning', 'Natural Language Processing', 'Text Features'],
   install_requires=[
           'nltk',
