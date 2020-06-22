@@ -2,14 +2,14 @@ from distutils.core import setup
 setup(
     name='writeprints',
     packages=['writeprints'],
-    version='0.1.1',
+    version='0.1.2',
     license='MIT',
     include_package_data=True,
     description='This package extracts writeprints features from a text document',
     author='Shaoor Munir',
     author_email='shaoormunir@outlook.com',
     url='https://github.com/shaoormunir/writeprints',
-    download_url='https://github.com/shaoormunir/writeprints/archive/v0.1.1.tar.gz',
+    download_url='https://github.com/shaoormunir/writeprints/archive/v0.1.2.tar.gz',
     keywords=['NLP', 'Machine Leanrning',
               'Natural Language Processing', 'Text Features'],
     install_requires=[
