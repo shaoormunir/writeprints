@@ -2,13 +2,13 @@ from distutils.core import setup
 setup(
     name='writeprints',
     packages=['writeprints'],
-    version='0.1.4',
+    version='0.1.5',
     license='MIT',
     description='This package extracts writeprints features from a text document or a pandas dataframe',
     author='Shaoor Munir',
     author_email='shaoormunir@outlook.com',
     url='https://github.com/shaoormunir/writeprints',
-    download_url='https://github.com/shaoormunir/writeprints/archive/v0.1.4.tar.gz',
+    download_url='https://github.com/shaoormunir/writeprints/archive/v0.1.5.tar.gz',
     keywords=['NLP', 'Machine Leanrning',
               'Natural Language Processing', 'Text Features'],
     install_requires=[
@@ -35,6 +35,6 @@ setup(
     ],
     package_data={
         # If any package contains *.txt or *.rst files, include them:
-        '': ['resources/*.txt'],
+        '': ['writeprintresources/*.txt'],
     },
 )

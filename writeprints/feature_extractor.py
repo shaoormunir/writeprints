@@ -5,11 +5,7 @@ import re
 from sortedcontainers import SortedDict
 import os
 from keras.preprocessing import text as tx
-try:
-    import importlib.resources as pkg_resources
-except ImportError:
-    # Try backported to PY<37 `importlib_resources`.
-    import importlib_resources as pkg_resources
+from pkg_resources import resource_filename
 
 from . import resources
 
@@ -253,8 +249,8 @@ class FeatureExtractor(object):
         feature_labels = []
 
         text = str(text).lower()
-        special_characters = pkg_resources.open_text(
-            resources, "writeprints_special_chars.txt").readlines()
+        special_characters = open(resource_filename(
+            'writeprints', 'writeprintresources/writeprints_special_chars.txt')).readlines()
         special_characters = [s.strip("\n") for s in special_characters]
         special_characters_dict = {}
         for c in range(0, len(special_characters)):
@@ -278,8 +274,8 @@ class FeatureExtractor(object):
 
     def get_function_words_percentage(self, text):
         feature_labels = []
-        function_words = pkg_resources.open_text(
-            resources, "functionWord.txt").readlines()
+        function_words = open(resource_filename(
+            'writeprints', 'writeprintresources/functionWord.txt')).readlines()
         function_words = [f.strip("\n") for f in function_words]
         # print((function_words))
         words = tx.text_to_word_sequence(
@@ -304,8 +300,8 @@ class FeatureExtractor(object):
 
         text = str(text).lower()  # because its case insensitive
         text = text.lower().replace(" ", "")
-        special_characters = pkg_resources.open_text(
-            resources, "writeprints_punctuation.txt").readlines()
+        special_characters = open(resource_filename(
+            'writeprints', 'writeprintresources/writeprints_punctuation.txt')).readlines()
         special_characters = [s.strip("\n") for s in special_characters]
         special_characters_dict = {}
         for c in range(0, len(special_characters)):
@@ -329,8 +325,8 @@ class FeatureExtractor(object):
     def get_misspellings_percentage(self, text):
         feature_labels = []
         feature_labels.append("misspellings_percentage")
-        misspelled_words = pkg_resources.open_text(
-            resources, "writeprints_misspellings.txt").readlines()
+        misspelled_words = open(resource_filename(
+            'writeprints', 'writeprintresources/writeprints_misspellings.txt')).readlines()
         misspelled_words = [f.strip("\n") for f in misspelled_words]
         words = tx.text_to_word_sequence(
             text, filters=self.CHARACTER_FILTER, lower=True, split=" ")
