@@ -13,12 +13,15 @@ class Processor(object):
 
     def extract_df(self, df):
         assert('text' in df)
-
-        df_out = pd.DataFrame()
+        out_dict = {}
+        # df_out = pd.DataFrame()
 
         for i, row in tqdm(df.iterrows(), total=len(df)):
             output = self.extractor.process(row['text'])
             output['text'] = row['text']
-            df_out = df_out.append(output, ignore_index=True)
-          
+            out_dict[i] = output
+            # df_out = df_out.append(output, ignore_index=True)
+        
+        df_out = pd.DataFrame.from_dict(out_dict, 'index')
+
         return df_out
