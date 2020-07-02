@@ -398,9 +398,9 @@ class FeatureExtractor(object):
         tags = [tag for tag in pos_tags]
         feature_labels = [f'pos_tag_frequencies:{x}' for x in tagset]
         try:
-            return list(tuple(tags.count(tag) / len(tags) for tag in tagset)), feature_labels
+            return [tags.count(tag) / len(tags) for tag in tagset], feature_labels
         except ZeroDivisionError:
-            return [], []
+            return [float('NaN') for tag in tagset], feature_labels
 
     def get_total_words(self, text):
         feature_labels = []
