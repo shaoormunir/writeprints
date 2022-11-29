@@ -21,7 +21,7 @@ pip install ./
 To extract features from a single text document contained in a python string:
 ```python
 from writeprints.text_processor import Processor
-processor = Processor (flatten = False) # Flatten will split vectorized featurs into individual featurs
+processor = Processor (flatten = False) # Flatten will split vectorized features into individual featurs
 features = processor.extract(string)
 ```
 
@@ -29,7 +29,7 @@ To extract features from a pandas data frame in which a column named "text" cont
 
 ```python
 from writeprints.text_processor import Processor
-processor = Processor (flatten = False) # Flatten will split vectorized featurs into individual featurs
+processor = Processor (flatten = False) # Flatten will split vectorized features into individual featurs
 features = processor.extract_df(df)
 ```
 
